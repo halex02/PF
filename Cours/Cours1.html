@@ -1,0 +1,150 @@
+<h1 id="cours-1--5-janvier-2016">Cours 1 : 5 Janvier 2016</h1>
+<h1 id="introduction--la-programmation-fonctionnelle-">Introduction à la programmation fonctionnelle :</h1>
+
+<p>La programmation fonctionnelle est un paradigme, une façon de programmer, une façon de faire/penser les choses.
+Langage de programmation purement fonctionnelle : Haskell.</p>
+
+<p>Idée importante dans la programmation fonctionnelle : Il s’agit de la notion de <em>fonction</em>. (fonctions d’ordre n)</p>
+
+<p>En programmation impérative, on réfléchit en termes d’états, de buts. On écrit des instructions qui changent cet/ces état(s).<br />
+En programmation fonctionnelle, on oublie tout ça. Il n’y a plus d’états, mais des valeurs.</p>
+
+<p>variable = nom + valeur</p>
+
+<p>On peut penser un programme complet comme une énorme expression qui calcule une valeur.</p>
+
+<p>La programmation fonctionnelle simplifie beaucoup de choses : on peut laisser le compilateur faire beaucoup de choses pour nous. Pourquoi ? Pour éviter de s’arracher les cheveux avec les threads, la répartion des tâches…</p>
+
+<h2 id="la-puret-">La pureté :</h2>
+<p>L’élément essentiel à avoir en tête : la <em>pureté</em>. Quand est-ce-qu’on parle de pureté ? Quand il n’y a pas d’effet de bord (ie. effet secondaire, en général c’est ce qu’on n’aime pas dans les médicaments.).<br />
+Cela permet certes de patcher rapidement un bug, mais ça laisse des codes dégueulasses traîner pendant des années. Cela génère beaucoup de problèmes de maintenance des programmes.</p>
+
+<h2 id="la-transparence-rfrentielle-">La transparence référentielle :</h2>
+<p>C’est un aspect particulier de la pureté. Cela signifie qu’une expression peut toujours être remplacée par sa valeur.<br />
+C’est un aspect qui aide beaucoup à la maintenance, notamment dans les tests.</p>
+
+<h2 id="parallelismeconcurrence-">Parallelisme/Concurrence :</h2>
+<???>
+
+<h2 id="langage-applicatif-">Langage applicatif :</h2>
+<p>On parle parfois de langage applicatif. Qu’est-ce-que c’est ? C’est un langage où l’élément central est l’application d’une fonction à un argument.<br />
+On trouve beaucoup de langages à la fois fonctionnels et applicatifs.</p>
+
+<h2 id="langage-dclaratif-">Langage déclaratif :</h2>
+<p>On décrit le résultat (comment l’atteindre) et on laisse la machine faire le travail.</p>
+
+<hr />
+
+<h1 id="entrons-dans-les-choses-concrtes-">Entrons dans les choses concrètes :</h1>
+<p>Il y a plein de langages fonctionnels, ça existe depuis la nuit des temps.</p>
+<ul>
+  <li>Le premier langage fonctionnel est LISP (1958). Usage très particulier, langage éloigné de la machine, assez lent.</li>
+  <li>Il y a la famille des langages ML (1980) (<em>Ocaml Power !</em>). Les ML sont des langages hybrides (fonctionnels et impératifs, LISP aussi d’ailleurs).</li>
+  <li>Le langage ERLANG.</li>
+  <li>Des langages fonctionnels tournent sous la JVM : SCALA (fonctionnel et orienté objet), CLOJURE (fils spirituel de LISP, au moins au niveau de la syntaxe).</li>
+  <li>Bien sûr, il y a Haskell qu’on va utiliser dans ce cours.</li>
+</ul>
+
+<h2 id="haskell-cest-quoi-">Haskell, c’est quoi ?</h2>
+<p>C’est <em>LA</em> référence des langages purement fonctionnels. C’est un langage élégant et pratique. Il permet de faire des programmes extrêmement concis.<br />
+Autre raison du choix de ce langage pour ce cours :  il est très dur à apprendre tout seul.<br />
+La syntaxe est proche de celle des langages ML, il a un système d’évaluation paresseuse.
+C’est un langage amusant à utiliser, les plus beaux programmes sont écrits par des gens qui connaissent Haskell, mais pas forcément en Haskell ! (avis personnel du prof).</p>
+
+<h2 id="comment-grer-la-complexit-">Comment gérer la complexité ?</h2>
+<???>
+
+<h2 id="autres-langages-permettant-de-faire-du-fonctionnel-">Autres langages permettant de faire du fonctionnel :</h2>
+<ul>
+  <li>Java (de plus en plus)</li>
+  <li>Javascript</li>
+</ul>
+
+<h2 id="programme-de-calcul-de-la-somme-des-lments-de-1--n-en-c-et-en-haskell-">Programme de calcul de la somme des éléments de 1 à n en C et en Haskell :</h2>
+<p>somme.c :</p>
+
+<pre><code class="language-c">int somme(int n){
+    int i , somme  = 0 ;
+
+    for(i = 0 ; i &lt; n ; i++){
+    	  somme+=i ;
+    }
+
+    return 0 ;
+}
+
+</code></pre>
+
+<p>somme.hs :</p>
+
+<pre><code class="language-haskell">somme n = sum [1..n]
+
+somme' n = sum (enumFromTo 1 n)
+
+sommePairs n = sum [0,2..n]
+
+sommeImpairs n = sum [1,3..n]
+
+sommeCarres n = sum (map (^2) [1..n])
+</code></pre>
+
+<p>Somme.java :</p>
+
+<pre><code class="language-java">import java.util.stream.*;
+
+public class Somme {
+       public static void main (String args[]) {
+       	      System.out.println(IntStream.range(1,10).sum());
+	      System.out.println(IntStream.range(1,10).map(i -&gt; i*i).sum();
+       }
+}
+</code></pre>
+
+<h2 id="exemple-dcortiqu-">Exemple décortiqué :</h2>
+<p>mystere.hs : (Il s’agit du tri rapide, réécouter l’enregistrement du cours pour comprendre)</p>
+
+<pre><code class="language-haskell">module Mystere where
+
+import Data.List (sort)
+import Test.QuickCheck
+
+myst   [] = []
+myst (x:xs) = myst ys ++ [x] ++ myst zs
+     where ys = [ y | y &lt;- xs, y &lt; x]
+     	   zs = [ z | z &lt;- xs, z &gt; x]
+
+propriete xs =  myst xs == sort xs
+
+propriete' (1:xs) = True
+</code></pre>
+
+<h2 id="le-compilateur---ghc">Le compilateur :  GHC</h2>
+<p>Initialement “Glasgow Haskell Compiler”, renommé “Glorious Haskell Compiler”.<br />
+GHCi -&gt; REPL (Read-Eval-Print Loop)</p>
+
+<h2 id="linterprteur-">L’interpréteur :</h2>
+<pre><code>*Mystere&gt; 2
+2
+*Mystere&gt; 2 + 3 * 4
+20
+*Mystere&gt; sqrt 3 ^ 2 + 4 ^ 2
+19.2
+*Mystere&gt; head [1,2,3,4]
+1
+*Mystere&gt; head []
+*** Exception : Prelude.head : empty list
+*Mystere&gt; tail [1,2,3,4]
+[2,3,4]
+*Mystere&gt; tail []
+*** Exception : Prelude.tail : empty list
+*Mystere&gt; [1,2,3] !! 2
+3
+*Mystere&gt; drop 2 [1,2,3]
+[3]
+*Mystere&gt; True
+True
+*Mystere&gt; False
+False
+</code></pre>
+
+<p>Attention aux majuscules en Haskell. Les noms de modules ont une majuscule, pareil pour les constantes.</p>

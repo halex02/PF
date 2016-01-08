@@ -1,0 +1,70 @@
+<h1 id="cours-2--5-janvier-2016">Cours 2 : 5 Janvier 2016</h1>
+<h1 id="haskell--les-bases-">Haskell : les bases :</h1>
+
+<p>Haskell est fortement typé statiquement.</p>
+
+<ul>
+  <li>Un <em>type</em> est un ensemble de valeurs.</li>
+  <li><em>Statiquement</em> signifie que les types sont vérifiés à la compilation.</li>
+  <li>Un typage <em>fort</em> signifie qu’il n’y aura pas d’erreur à l’exécution.</li>
+</ul>
+
+<p>Il y a des types absolument partour en Haskell et on a besoin de les mentionner nul part, car non seulement le compilateur vérifie les types, mais il sait aussi faire <em>l’inférence des types</em> (ie. détection/reconnaissance automatique des types).</p>
+
+<h2 id="les-types-">Les types :</h2>
+
+<ul>
+  <li><code>Bool</code> : <code>True</code> et <code>False</code></li>
+  <li><code>Char</code> : type des caractères</li>
+  <li><code>Int</code> : nombre entier qui tient dans un mot processeur (valeur max : 9223372036854775807)</li>
+  <li><code>Integer</code> : nombre entier non borné (ie. entier en précision arbitraire)</li>
+  <li>/!\ Notation particulière pour les types de liste : <code>[a]</code> -&gt; type des liste de contenu de type <code>a</code></li>
+  <li><code>String</code> : <code>[Char]</code></li>
+  <li>Combinaison de type (ie. n-uplets) : <code>(t1,t2,...,tn)</code>. Ex : <code>(Char,Int)</code></li>
+</ul>
+
+<p>type.hs:</p>
+
+<pre><code class="language-haskell">-- addition décurryfié
+add :: (Int,Int) -&gt; Int
+add (x, y) = x + y
+
+zeroTo :: Integer -&gt; [Integer]
+zeroTo n = [0..n]
+
+-- duplique :: Int -&gt; (Int, Int)
+duplique :: a -&gt; (a, a)
+duplique n  = (n, n)
+
+-- addition curryfiée
+add' :: Int -&gt; Int -&gt; Int
+add' x y = x + y
+</code></pre>
+
+<h2 id="curryfication-">Curryfication :</h2>
+<p><code>add' 1 2</code> &lt;=&gt; <code>(add' 1) 2</code> &lt;=&gt; <code>add (1, 2)</code></p>
+
+<h2 id="polymorphisme-">Polymorphisme :</h2>
+<p>Comme en Caml : polymorphisme paramétrique (ie. les Generics en Java).</p>
+
+<h2 id="surcharge--classes-de-types-warning-pas-java">SURCHARGE : <em>“CLASSES”</em> de types (warning pas java)</h2>
+<p><code>info Num</code> dans l’interpréteur pour un exemple.<br />
+Classes communes : <code>Num</code>, <code>Eq</code>, <code>Ord</code>, <code>Show</code>.</p>
+
+<p>mystere.hs :</p>
+
+<pre><code class="language-haskell">module Mystere where
+
+import Data.List (sort)
+import Test.QuickCheck
+
+myst :: Ord a  =&gt; [a] -&gt; a
+myst [] = []
+myst (x:xs) = myst ys ++ (x:ws) ++ myst zs
+     where ys = [y | y &lt;- xs, y &lt; x]
+     	   zs = [z | z &lt;- xs, z &gt; x]
+	   ws = [w | w &lt;- xs, w == x]
+
+propriete xs = myst xs == sort xs
+propriete' (1:xs) = True
+</code></pre>
