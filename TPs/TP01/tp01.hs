@@ -1,28 +1,44 @@
-module TP01 where
+ module TP01 where
 
---Question 3 :
-sommeDeXaY x y
-  | x <= y    = x + sommeDeXaY (x+1) y
-  | otherwise = 0
+ --Question 3 :
+ sommeDeXaY x y
+   | x <= y    = x + sommeDeXaY (x+1) y
+   | otherwise = 0
 
---Question 4 :
-somme :: [Int] -> Int
-somme [] = 0
-somme (x:l) = x + somme l
+ --Question 4 :
+ somme :: [Int] -> Int
+ somme [] = 0
+ somme (x:xs) = x + somme xs
 
---Question 5 :
-myLast [] = error "liste vide"
-myLast l
-  | tail l == [] = head l
-  | otherwise    = myLast (tail l)
+ --Question 5 :
+ myLast [] = error "liste vide"
+ myLast xs
+   | tail xs == [] = head xs
+   | otherwise    = myLast (tail xs)
 
-myInit [] = error "liste vide"
-myInit l  = reverse (tail (reverse l))
+ myInit [] = error "liste vide"
+ myInit xs  = reverse (tail (reverse xs))
 
---Question 6 :
-getter l i
-  | i < 0         = error "index negatif"
-  | length l <= i = error "liste trop courte"
-  | i == 0        = head l
-  | otherwise     = getter (tail l) (i-1)
+ --Question 6 :
+ getter (x:xs) 0  = x
+ getter (x:xs) i  = getter xs (i-1)
+ getter []     _  = error "getter : liste vide"
 
+ append []     []     = []
+ append []     ys     = ys
+ append xs     []     = xs
+ append (x:xs) ys     = (x:(append xs ys))
+
+ myConcat []     = []
+ myConcat (x:xs) = append x (myConcat xs)
+ 
+ myMap f []     = []
+ myMap f (x:xs) = ((f x):(myMap f xs))
+
+ --Question 7 :
+ -- c'est une application partielle de la fonction (!!).
+ -- cela représente la définition d'une fonction x de type Integer -> a
+ -- qui renverra l'élément de l contenu à l'indice passé en paramètre de x.
+
+ --Question 8 :
+ 
