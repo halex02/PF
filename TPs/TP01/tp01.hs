@@ -43,5 +43,11 @@
  --Question 8 :
 
  --Question 9 :
- maFonction f x 0 = [x]
- maFonction f x n = x:(map f (maFonction f x (n-1)))
+ maFonctionRec f x 0 = [x]
+ maFonctionRec f x n = x:(map f (maFonctionRec f x (n-1)))
+
+ maFonction f x n = take n (iterate f x)
+
+ --Question 10 :
+ entiersConsecutifs n = maFonction (\x -> x+1) 0 n
+ 
