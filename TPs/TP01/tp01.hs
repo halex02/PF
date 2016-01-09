@@ -41,4 +41,7 @@
  -- qui renverra l'élément de l contenu à l'indice passé en paramètre de x.
 
  --Question 8 :
- 
+
+ --Question 9 :
+ maFonction f x 0 = [x]
+ maFonction f x n = x:(map f (maFonction f x (n-1)))
