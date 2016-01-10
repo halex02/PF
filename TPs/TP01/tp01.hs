@@ -41,7 +41,9 @@
  -- qui renverra l'élément de l contenu à l'indice passé en paramètre de x.
 
  --Question 8 :
-
+ longueur [] = somme [0]
+ longueur xs = somme (map (\x -> 1) xs)
+ 
  --Question 9 :
  maFonctionRec f x 0 = [x]
  maFonctionRec f x n = x:(map f (maFonctionRec f x (n-1)))
@@ -50,4 +52,3 @@
 
  --Question 10 :
  entiersConsecutifs n = maFonction (\x -> x+1) 0 n
- 
