@@ -1,3 +1,4 @@
+--Damien TOULOUSE et Alexandre HOUPLON
 module TP01 where
 
 --Question 3 :
