@@ -15,5 +15,5 @@ pasDragon xs = (pasDragon (take 2 xs))++(pasDragon (drop 2 xs))
 
 --Question 5 :
 pointAIntercaler :: Point -> Point -> Point
-pointAIntercaler a b = (((fst a) + (fst b))/2 + ((snd b) - (snd a))/2 , ((snd a) + (snd b))/2 + ((fst a) - (fst b))/2)
+pointAIntercaler a b = ((fst a + fst b)/2 + (snd b - snd a)/2 , (snd a + snd b)/2 + (fst a - fst b)/2)
 
