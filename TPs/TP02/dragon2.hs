@@ -20,3 +20,6 @@ pasDragon (a:b:c:xs) = a:(pointAIntercaler a b):b:(pointAIntercaler c b):(pasDra
 pointAIntercaler :: Point -> Point -> Point
 pointAIntercaler a b = ((fst a + fst b)/2 + (snd b - snd a)/2 , (snd a + snd b)/2 + (fst a - fst b)/2)
 
+dragonOrdre :: Point -> Point -> Int -> Path
+dragonOrdre a b 0 = [a,b]
+dragonOrdre a b n = (dragonOrdre a (pointAIntercaler a b) (n-1))++(dragonOrdre b (pointAIntercaler a b) (n-1))
