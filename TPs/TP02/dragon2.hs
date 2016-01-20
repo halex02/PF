@@ -1,8 +1,8 @@
 import Graphics.Gloss
 
-main = animate (InWindow "Dragon" (500, 500) (0, 0)) white (dragonAnime (50, 250) (450, 250))
+main = animate (InWindow "Dragon" (500, 500) (0, 0)) white (dragonAnime (50, 250) (450, 250) 20)
 
-dragonAnime a b t = Line (dragon a b !! (round t `mod` 20))
+dragonAnime a b t = Line (dragonOrdre a b t)
 
 --Question 7 :
 dragon :: Point -> Point -> [Path]
@@ -22,4 +22,4 @@ pointAIntercaler a b = ((fst a + fst b)/2 + (snd b - snd a)/2 , (snd a + snd b)/
 
 dragonOrdre :: Point -> Point -> Int -> Path
 dragonOrdre a b 0 = [a,b]
-dragonOrdre a b n = (dragonOrdre a (pointAIntercaler a b) (n-1))++(dragonOrdre b (pointAIntercaler a b) (n-1))
+dragonOrdre a b n = (dragonOrdre a c (n-1))++(tail(dragonOrdre c b (n-1))) where c = pointAIntercaler a b
