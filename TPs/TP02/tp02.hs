@@ -1,3 +1,4 @@
+--Houplon Alexandre & Toulouse Damien
 module TP02 where
 
 --Echauffement :
@@ -21,4 +22,4 @@ pasPascal xs  = (zipWith (+) xs (0:xs)) ++ [1]
 pascal = iterate pasPascal [1]
 
 --Courbe du dragon :
---Voir fichier dragon.hs
+--Voir fichier dragon.hs et dragon2.hs
