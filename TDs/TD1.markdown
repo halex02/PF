@@ -105,3 +105,144 @@ Question 4 :
 * (['a', 'b'], 'c') : non typable
 * [tail, init, reverse] : [[a]->[a]]
 * take 5 : [a]->[a]
+
+Question 5 :
+Second :: [a] -> a
+swap :: (a, b) -> (b, a)
+pair :: x -> y -> (x, y)
+fst :: (a, b) -> a
+double :: Num a => a -> a
+palindrome :: [Eq a] -> Bool
+twice :: (a -> a) -> a -> a
+
+ /!\ Les fonctions ne sont pas comparables, ie aucun programme ne peut tester l'égalité de deux autres programmes.
+
+
+L'algorithme d'unification en prolog et l'algorithme de calcul de type de haskell sont très proches.
+
+##I.3 Formes curryfiée et décurryfiée d'une fonction :
+^
+Question 6 :
+
+~~~
+curryfie :: ((t1,t2) -> t) -> t1 -> t2 -> t
+curryfie f a b = f (a, b)
+
+curryfie' f =  \a -> \b -> f (a,b)
+~~~
+{: .language-haskell}
+
+Question 7 :
+
+~~~
+decurryfie :: (t1 -> t2 -> t) -> (t1, t2) -> t
+decurryfie f (a, b) = f a b
+
+decurryfie' f = \(a, b) -> f a b
+~~~
+{: .language -haskell}
+
+##I.4 Un itérateur :
+^
+Question 8 :
+
+~~~
+itere :: (t -> t) -> Int -> t -> t
+itere f 0 x = x
+itere f n x | n < 0     = error "itere : on n'itere pas -n fois !!!"
+      	    | otherwise = itere f (n-1) (f x)
+~~~
+{: .language-haskell}
+
+##I.5 Expressions fonctionnelles numériques :
+^
+Question 9 :
+
+~~~
+sommeCarre :: Num a => a -> a -> a
+sommeCarre a b = a^2 + b^2
+
+(Num a, Num a1) => (a1 -> a) -> a
+f f' = (f' 2) * 2
+
+f4 a b c =  (a+b+c) + 2
+
+f5 x f = f x (+x)
+
+f6 f x = f x +x
+
+f7 f = (f 1 2) + (f 1 2)
+~~~
+{: .language-haskell}
+
+##I.6 Expresssions fonctionnelles polymorphes
+^
+Question 10 :
+
+f1 :: t -> t
+f1 x = x
+f1 = id --élément neutre dans la composition des fonctions
+
+Num a =>  t -> a
+f2 t = 1
+
+Eq a => a -> a -> Bool
+f3 x y = x >= y
+
+(t1 -> t) -> t1 -> t
+f4 f x = f x
+
+(t2 -> t1) -> (t1 -> t) -> t2 -> t
+f5 f g = g (f x)
+
+Eq a => (t -> a) -> (t1 -> a) -> t -> t1 -> Bool
+f6  f g x y = f x >= g y
+
+(Eq a, Num a1, Num a2) => (a -> a2 -> a1) -> a -> a -> a1
+f7 f a b
+   | a == b = (f a 2)+1
+   | otherwise = (f b 2)+1
+
+(t2 -> t1 -> t) -> (t2 -> t1) -> t2 -> t
+f8 f h x = f x (h x)
+
+t -> t1
+f9 x = f9 x
+
+##I.7 Typage d'expressions fonctionnnelles polymorphes
+^
+Question 11 :
+
+h1 f x y = f x y
+h1 :: (a -> b -> c) -> a -> b -> c
+
+h2 f x y = (f x) y
+h2 :: (a -> b -> c) -> a -> b -> c
+
+h3 f x y = f (x y)
+h3 :: (t2 -> t3)-> (t1 -> t2)-> t1 -> t3
+
+h4 f x y = f(x y f)
+
+#II Quelques fonctions
+##II.1 Retour sur le tp1, encore des listes et de la récursivité...
+^
+myLast (x:_:[]) = x
+myLast (_:y:xs) = myLast(y:xs)
+myLast _ = error"..."
+
+myCompress :: Eq a => [a] -> [a]
+
+
+myCompress []         = []
+myCompress [x]        = [x]
+myCompress (x:y:xs)
+	   |x == y    = mycompress (y:xs)
+	   |otherwise = x:(mycompress (y:xs))
+
+Question 17
+6
+3
+6
+1
+1
