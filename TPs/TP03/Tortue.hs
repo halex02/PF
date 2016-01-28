@@ -43,9 +43,25 @@ tourneADroite c (p,cap) = (p, cap')
     cap' = cap - angle c
 
 filtreSymbolesTortue :: Config -> Mot -> Mot
-filtreSymbolesTortue c mot = filter (\x -> x `elem` (symbolesTortues c)) mot
+filtreSymbolesTortue c mot = filter (\x -> x `elem` (symbolesTortue c)) mot
 
 interpreteSymbole :: Config -> EtatDessin -> Symbole -> EtatDessin
-interpreteSymbole c ((pt, dir), path) 'F' = ((avance c (pt, dir)), pt:path)
+interpreteSymbole c ((pt, dir), path) 'F' = ((p, dir), p:path)
+  where
+    (p, _) = avance c (pt, dir)
 interpreteSymbole c (e, path) '+'         = ((tourneAGauche c e), path)
 interpreteSymbole c (e, path) '-'         = ((tourneADroite c e), path)
+
+interpreteMot :: Config -> Mot -> Picture
+interpreteMot c m = line path
+  where
+    (_, path)      = foldl (\etatDessin symbole -> interpreteSymbole c etatDessin symbole) etatDessinInit motFiltre
+    motFiltre      = filtreSymbolesTortue c m
+    etatDessinInit = (etatTortueInit, [premier])
+    etatTortueInit = etatInitial c
+    (premier, _)   = etatTortueInit
+
+dessin = interpreteMot (((-150,0),0),100,1,pi/3,"F+-") "F+F--F+F"
+main = display (InWindow "L-système" (1000, 1000) (0, 0)) white dessin
+
+
