@@ -46,6 +46,6 @@ filtreSymbolesTortue :: Config -> Mot -> Mot
 filtreSymbolesTortue c mot = filter (\x -> x `elem` (symbolesTortues c)) mot
 
 interpreteSymbole :: Config -> EtatDessin -> Symbole -> EtatDessin
-interpreteSymbole c ((pt, dir), path) 'F' = 
+interpreteSymbole c ((pt, dir), path) 'F' = ((avance c (pt, dir)), pt:path)
 interpreteSymbole c (e, path) '+'         = ((tourneAGauche c e), path)
 interpreteSymbole c (e, path) '-'         = ((tourneADroite c e), path)
