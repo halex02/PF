@@ -1,0 +1,6 @@
+{-
+  freeTree = Branche "ROUGE" 'P' (Branche "ROUGE" 'O' (Branche "ROUGE" 'L' (Feuille) (Feuille))(Branche "ROUGE" 'Y'(Feuille)(Feuille)))(Branche "ROUGE" 'L'(Branche "ROUGE" 'W'(Feuille)(Feuille))(Branche "ROUGE" 'A'(Feuille)(Feuille)))
+
+  fct (_,y) = ("BLEU",y)
+-}
+
