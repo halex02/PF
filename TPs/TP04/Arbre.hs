@@ -11,17 +11,15 @@ module Arbre where
     where
     (nc, nv) = f (c,v) 
 
-  --foldArbre :: ( -> -> -> ) -> -> Arbre c0 v0-> 
+  foldArbre :: ( c -> v -> b -> b -> b) -> b -> Arbre c v-> b
+  foldArbre _ v Feuille = v
+  foldArbre f v (Noeud coul val a1 a2) = f coul val (foldArbre f v a1) (foldArbre f v a2)
 
   hauteur :: Arbre c v -> Int
-  hauteur Feuille = 0
-  hauteur (Noeud _ _ g d) = 1 + max (hauteur g) (hauteur d)
-{-    | hauteur g < hauteur d = 1 + hauteur (d)
-    | otherwise =  1 + hauteur (g)
--}
+  hauteur arbre = foldArbre (\c v a1 a2 -> 1 + (max a1 a2)) 0 arbre
+
   taille :: Arbre c v -> Int
-  taille Feuille = 0
-  taille (Noeud _ _ g d) = 1+(taille g)+(taille d)
+  taille arbre = foldArbre (\c v a1 a2 -> 1 + a1 + a2) 0 arbre
 
   peigneGauche :: [(c,v)] -> Arbre c v
   peigneGauche [] = Feuille  
@@ -31,4 +29,16 @@ module Arbre where
 
 
   prop_hauteurPeigne xs = length xs == hauteur (peigneGauche xs)
+  prop_taillePeigne xs = length xs == taille (peigneGauche xs)
+
+  estComplet :: Arbre c a -> Bool
+  estComplet Feuille = True
+  estComplet (Noeud c v gauche droit) = ((taille gauche) == (taille droit)) && (estComplet gauche) && (estComplet droit)
+
+  prop_CompletPeigne xs = estComplet (peigneGauche xs)
+  
+  
+  
+
+
   
